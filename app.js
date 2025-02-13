@@ -13,8 +13,6 @@ async function getNews() {
 
     const data = await response.json();
 
-    console.log(data);
-
     if (!data.articles || data.articles.length === 0) {
       throw new Error("No news articles found.");
   }
@@ -31,9 +29,22 @@ async function getNews() {
 
       data.articles.forEach ((article) => {
         const title = article.title;
-        const listItem = document.createElement('li');
-        listItem.textContent = title;
-        newsList.appendChild(listItem);
+        const imgUrl = article.urlToImage;
+
+        const newsItem = document.createElement('div');
+
+        const titleHeading = document.createElement('h3');
+        titleHeading.textContent = title;
+        newsItem.appendChild(titleHeading);
+
+        if (imgUrl) {
+          const imgContainer = document.createElement('img');
+          imgContainer.src = imgUrl;
+          imgContainer.alt = title;
+          newsItem.appendChild(imgContainer);
+        }
+        
+        newsList.appendChild(newsItem);
       })
 
     } else {
