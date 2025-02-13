@@ -1,2 +1,3 @@
-# Ignore API key
+# Local env files
 .env
+config.js
