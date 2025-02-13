@@ -27,7 +27,17 @@ async function getNews() {
 
       newsList.innerHTML = "";
 
-      data.articles.forEach ((article) => {
+      const keywordInput = document.getElementById('void-search');
+      const keyword = keywordInput.value.toLowerCase()
+
+      data.articles
+      .filter(article => {
+        if (article.title) {
+          return !article.title.toLowerCase().includes(keyword.toLowerCase());
+        }
+        return true;
+      })
+      .forEach(article => {
         const title = article.title;
         const imgUrl = article.urlToImage;
 
@@ -45,7 +55,7 @@ async function getNews() {
         }
         
         newsList.appendChild(newsItem);
-      })
+      });
 
     } else {
       console.error("news element not found!")
@@ -60,6 +70,17 @@ async function getNews() {
       console.error("news element not found!");
     }
   }
+}
+
+const voidSubmitButton = document.getElementById('void-submit');
+
+if (voidSubmitButton) {
+  voidSubmitButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    getNews();
+  });
+} else {
+  "Submit button not found."
 }
 
 getNews();
